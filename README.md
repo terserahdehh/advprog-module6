@@ -23,3 +23,7 @@ The code sets up a TCP listener on the local address 127.0.0.1:7878 and waits fo
 ![After Refactoring screen capture](/assets/images/after_refactoring.png)
 
 Before refactoring, the code built the response in two separate parts, causing duplicate code. This duplication made the code longer and harder to manage. The refactoring separates the decision of which status and file to use from the response-building process. The code now selects the status line and filename first and stores them in a tuple. Then, the same block of code is used to build and send the final response. This makes the function shorter, clearer, and easier to update in the future.
+
+# Commit 4 Reflection Notes 
+
+The updated code starts by accepting connections from a TCP listener. It reads the first line of the request and uses a match expression to choose the right response. If the request is "GET /sleep HTTP/1.1", the code makes the thread sleep for 10 seconds before choosing a response. This sleep delays the response and shows how a slow request can block the server from handling new requests quickly. The response is built once by reading a file and then sent back to the client. This design highlights that if many users send requests that cause delays, the overall performance of the server can suffer.
