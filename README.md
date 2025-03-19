@@ -1,0 +1,3 @@
+# Commit 1 Reflection Notes
+
+The handle_connection method starts by creating a buffered reader to read data from the TCP stream efficiently. It then reads the HTTP request one line at a time until it finds an empty line, which indicates the end of the header section. Each line is unwrapped to convert the result into a string, and all the lines are collected into a vector. The collected header lines are then printed in a formatted way. This method is designed to capture only the header part of an HTTP request. While it works well for basic request handling and debugging, it does not handle errors or process the request body, which are needed for a complete server implementation.
