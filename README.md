@@ -27,3 +27,7 @@ Before refactoring, the code built the response in two separate parts, causing d
 # Commit 4 Reflection Notes 
 
 The updated code starts by accepting connections from a TCP listener. It reads the first line of the request and uses a match expression to choose the right response. If the request is "GET /sleep HTTP/1.1", the code makes the thread sleep for 10 seconds before choosing a response. This sleep delays the response and shows how a slow request can block the server from handling new requests quickly. The response is built once by reading a file and then sent back to the client. This design highlights that if many users send requests that cause delays, the overall performance of the server can suffer.
+
+# Commit 5 Reflection Notes 
+
+The ThreadPool is used to manage a fixed number of threads that can run tasks concurrently. The ThreadPool struct holds a list of worker threads and a sender channel to pass jobs to these workers. Each worker is created with its own thread that continuously waits for a job from a shared receiver. When a new connection is received, the main function creates a job (a closure that calls handle_connection) and sends it to the thread pool. A worker thread locks the receiver, gets the job, and then executes it, printing a message that it has started the job. This design makes the server more efficient and easier to manage when handling many tasks at the same time.
