@@ -31,3 +31,7 @@ The updated code starts by accepting connections from a TCP listener. It reads t
 # Commit 5 Reflection Notes 
 
 The ThreadPool is used to manage a fixed number of threads that can run tasks concurrently. The ThreadPool struct holds a list of worker threads and a sender channel to pass jobs to these workers. Each worker is created with its own thread that continuously waits for a job from a shared receiver. When a new connection is received, the main function creates a job (a closure that calls handle_connection) and sends it to the thread pool. A worker thread locks the receiver, gets the job, and then executes it, printing a message that it has started the job. This design makes the server more efficient and easier to manage when handling many tasks at the same time.
+
+# Commit Bonus Reflection Notes
+
+The updated code replaces the old "new" function with a new function named "build" in the ThreadPool implementation. The new function name makes it clear that this function sets up and returns a new thread pool. It first checks that the size is greater than zero, ensuring that a valid number of threads is requested. Then, it creates a channel and wraps the receiver in an Arc and Mutex so it can be safely shared among workers. Next, it creates a vector of workers, each with its own thread that waits for and executes incoming jobs. Finally, the ThreadPool is returned with its list of workers and the sender, ready to process tasks.
